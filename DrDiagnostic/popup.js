@@ -2,13 +2,11 @@
 let convertTo = document.getElementById("convertTo");
 let convertBack = document.getElementById("convertBack");
 let urlTextbox = document.getElementById("urlTextbox");
+let getFromOneTag = document.getElementById("getFromOneTag");
+
 let oldURL = "https://d.eu.criteo.com/";
 let newURL = "http://cbsd.par.prod.crto.in/";
 let diagnosticMode = "&diagnosticmode=true"
-
-chrome.storage.sync.get("color", ({ color }) => {
-  convertTo.style.backgroundColor = color;
-});
 
 // When the button is clicked, inject Convert to new page
 convertTo.addEventListener("click", async () => {

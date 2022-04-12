@@ -4,8 +4,8 @@ let convertBack = document.getElementById("convertBack");
 let urlTextbox = document.getElementById("urlTextbox");
 let getFromOneTag = document.getElementById("getFromOneTag");
 
-let oldURL = "https://d.eu.criteo.com/";
-let newURL = "http://cbsd.par.prod.crto.in/";
+let oldURL = "https://d.eu.criteo.com";
+let newURL = "http://cbsd.par.prod.crto.in";
 let diagnosticMode = "&diagnosticmode=true"
 
 // When the button is clicked, inject Convert to new page
@@ -58,14 +58,14 @@ urlTextbox.addEventListener('keypress', async (e) => {
     chrome.scripting.executeScript({
       target: { tabId: tab.id },
       function: openFromKibana,
-      args: [e.target.value]
+      args: [oldURL, e.target.value]
     });
   }
 });
 
 // Adds the URL then checks to see if it's a valid url to go to
-function openFromKibana(e) {
-  let url = window.oldURL + e;
+function openFromKibana(oldURL, e) {
+  let url = oldURL + e;
   if(url.includes("delivery")){
     window.open(url, '_blank').focus();
   }

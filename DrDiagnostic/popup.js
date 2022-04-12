@@ -1,6 +1,10 @@
 // Initialize buttons
 let convertTo = document.getElementById("convertTo");
 let convertBack = document.getElementById("convertBack");
+let urlTextbox = document.getElementById("urlTextbox");
+let oldURL = "https://d.eu.criteo.com/";
+let newURL = "http://cbsd.par.prod.crto.in/";
+let diagnosticMode = "&diagnosticmode=true"
 
 chrome.storage.sync.get("color", ({ color }) => {
   convertTo.style.backgroundColor = color;
@@ -13,17 +17,15 @@ convertTo.addEventListener("click", async () => {
   chrome.scripting.executeScript({
     target: { tabId: tab.id },
     function: convertToDiagnostic,
+    args: [oldURL, newURL, diagnosticMode]
   });
 });
 
 // The body of this function will be executed as a content script inside the
 // current page
-function convertToDiagnostic() {
-let oldURL = "https://d.eu.criteo.com/";
-let newURL = "http://cbsd.par.prod.crto.in/";
-let diagnosticMode = "&diagnosticmode=true"
+function convertToDiagnostic(oldURL, newURL, diagnosticMode) {
   let url = window.location.href;
-  console.log(url);
+  console.log(url, "convertToDiagnostic", oldURL);
   if(url.includes(oldURL)){
     url = url.replace(oldURL, newURL) + diagnosticMode;
     window.open(url, '_blank').focus();
@@ -37,19 +39,36 @@ convertBack.addEventListener("click", async () => {
   chrome.scripting.executeScript({
     target: { tabId: tab.id },
     function: convertFromDiagnostic,
+    args: [newURL, oldURL, diagnosticMode]
   });
 });
 
 // The body of this function will be executed Convert to old page
-function convertFromDiagnostic() {
-let newURL = "https://d.eu.criteo.com/";
-let oldURL = "http://cbsd.par.prod.crto.in/";
-let diagnosticMode = "&diagnosticmode=true"
+function convertFromDiagnostic(oldURL, newURL, diagnosticMode) {
   let url = window.location.href;
-  console.log(url);
   if(url.includes(oldURL)){
     url = url.replace(oldURL, newURL);
     url = url.replace(diagnosticMode, "");
+    window.open(url, '_blank').focus();
+  }
+}
+
+// Event for the URL 
+urlTextbox.addEventListener('keypress', async (e) => {
+  if (e.key === 'Enter') {
+    let [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+    chrome.scripting.executeScript({
+      target: { tabId: tab.id },
+      function: openFromKibana,
+      args: [e.target.value]
+    });
+  }
+});
+
+// Adds the URL then checks to see if it's a valid url to go to
+function openFromKibana(e) {
+  let url = window.oldURL + e;
+  if(url.includes("delivery")){
     window.open(url, '_blank').focus();
   }
 }

@@ -20,10 +20,8 @@ convertTo.addEventListener("click", async () => {
 });
 
 // The body of this function will be executed as a content script inside the
-// current page
 function convertToDiagnostic(oldURL, newURL, diagnosticMode) {
   let url = window.location.href;
-  console.log(url, "convertToDiagnostic", oldURL);
   if(url.includes(oldURL)){
     url = url.replace(oldURL, newURL) + diagnosticMode;
     window.open(url, '_blank').focus();
@@ -69,4 +67,22 @@ function openFromKibana(oldURL, e) {
   if(url.includes("delivery")){
     window.open(url, '_blank').focus();
   }
+}
+
+// When the button is clicked, inject Convert to new page
+getFromOneTag.addEventListener("click", async () => {
+  let [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+
+  chrome.scripting.executeScript({
+    target: { tabId: tab.id },
+    function: openFromOneTag
+  });
+});
+
+// The body of this function will be executed as a content script inside the
+function openFromOneTag() {
+  // let url = oldURL;
+  let url = window.location.href;
+  let response = fetch(url);
+  console.log(response);
 }

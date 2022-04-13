@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <link rel="stylesheet" href="button.css">
+    <link rel="stylesheet" href="stylesheet.css">
   </head>
-  <body>
-    <input type="text" id="urlTextbox" placeholder="URL">
-    <button id="convertTo"></button>
-    <button id="convertBack"></button>
-    <button id="getFromOneTag"></button>
+  <body id="rcorners">
+    <img src="images/Logo-128.png" alt="Logo" id="logo"><br>
+    <input type="text" id="urlTextbox" placeholder="API URL from Kibana"><br>
+    <button id="convertTo">Convert to Diagnostic Mode</button><br>
+    <button id="convertBack">Convert from Diagnostic Mode</button><br>
+    <button id="getFromOneTag">Get API from OneTag</button>
     <script src="popup.js"></script>
   </body>
 </html>

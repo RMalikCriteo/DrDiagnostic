@@ -7,6 +7,7 @@ button {
   margin-left: auto;
   margin-right: auto;
   background-color: #4cafa7;
+  color: black;
 }
 
 input {
@@ -22,12 +23,3 @@ input {
   margin-right: auto;
   width: 30%;
 }
-
-/* #rcorners {
-  border-radius: 0px;
-  overflow: hidden;
-  border: 2px solid #2175ad;
-  padding: 10px;
-  -webkit-appearance: none;
-  -webkit-border-radius: 0px;
-} */
